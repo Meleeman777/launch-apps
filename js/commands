@@ -1,0 +1,24 @@
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+source ~/.bashrc   
+nvm install v18.0.0
+npm cache clean -f
+npm install -g n
+n stable
+
+npm install
+npm run build
+
+openssl genrsa -aes256 -passout pass:123456 -out meleemanhs2.fvds.ru.pass.key 4096
+openssl rsa -passin pass:123456  -in meleemanhs2.fvds.ru.pass.key -out meleemanhs2.fvds.ru.key
+openssl req -new -key meleemanhs2.fvds.ru.key -out meleemanhs2.fvds.ru.csr
+openssl x509 -req -sha256 -days 365 -in meleemanhs2.fvds.ru.csr -signkey meleemanhs2.fvds.ru.key -out meleemanhs2.fvds.ru.crt
+cp meleemanhs2.fvds.ru.crt /etc/nginx/ssl/
+cp meleemanhs2.fvds.ru.key /etc/nginx/ssl/
+
+vim /etc/nginx/conf.d/server.conf
+systemctl restart nginx.service
+
+vim /etc/systemd/system/node.service
+systemctl daemon-reload
+systemctl enable node.service
+systemctl start node.service
