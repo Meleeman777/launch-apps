@@ -1,1 +1,28 @@
-
+sudo apt-get install software-properties-common
+sudo apt-add-repository -y ppa:rael-gc/rvm
+sudo apt-get install rvm
+sudo usermod -a -G rvm $USER
+echo 'source "/etc/profile.d/rvm.sh"' >> ~/.bashrc
+rvm install ruby-2.7.2
+sudo gem install bundler
+bundle install
+wget https://github.com/postmodern/ruby-install/releases/download/v0.9.1/ruby-install-0.9.1.tar.gz
+rvm use  ruby-2.7.2
+gem install nokogiri -v 1.8.0
+sudo apt install postgresql postgresql-contrib libpq-dev
+sudo -u postgres createuser -s ruby -P
+gem install pg -v '0.21.0'
+bundle add pg -v '0.21.0'
+sudo vim /etc/postgresql/16/main/pg_hba.conf 
+RAILS_ENV=production bundle exec rake db:create db:schema:load
+rake db:migrate
+RAILS_ENV=production rake secret
+rails assets:precompile
+sudo vim /etc/nginx/conf.d/server.conf
+nginx -s reload
+sudo gem install puma -v 3.10.0
+vim puma.rb
+systemctl enable ruby.service
+sudo systemctl daemon-reload
+sudo systemctl start ruby.service
+sudo systemctl status ruby.service
