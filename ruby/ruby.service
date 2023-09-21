@@ -1,0 +1,15 @@
+[Unit]
+Description=MyApp
+Requires=network.target
+
+[Service]
+Type=simple
+User=rebrain
+WorkingDirectory=/home/rebrain/alphacamp_blog_app
+ExecStart=/usr/local/bin/puma
+TimeoutSec=30
+RestartSec=15s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
