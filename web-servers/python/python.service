@@ -1,0 +1,13 @@
+[Unit]
+Description=Listen 8000 port
+
+[Service]
+User=rebrain
+Type=simple
+WorkingDirectory=/home/rebrain/python
+ExecStart=gunicorn -b 91.240.85.23 myapp:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
