@@ -1,0 +1,14 @@
+[Unit]
+Description=NodeJS server, NextJS public frontend
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Restart=on-failure
+RestartSec=10
+WorkingDirectory=/home/rebrain/nodejs.org
+ExecStart=/root/.nvm/versions/node/v18.17.1/bin/npm start
+
+[Install]
+WantedBy=multi-user.target
