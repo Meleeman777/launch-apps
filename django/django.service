@@ -1,0 +1,22 @@
+[Unit]
+Description=My Django app
+Requires=network.target
+After=network.target
+After=syslog.target
+
+[Service]
+TimeoutStartSec=0
+RestartSec=10
+Restart=always
+User=myuser
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+StandardError=syslog
+RuntimeDirectory=uwsgi
+User=rebrain
+# Main call:'systemctl daemon-reload Virtual env is activated and uwsgi is started with INI file as argument
+ExecStart=/bin/bash -c 'cd /home/rebrain/django-realworld-example-app; source env/bin/activate; uwsgi --http :8000 --module conduit.wsgi;'
+
+[Install]
+WantedBy=multi-user.target
